@@ -54,6 +54,8 @@ const getBalance = async (category) => {
             finalRes+=item.amount;
         }
     }) 
+    console.log("hii")
+    console.log(finalRes)
     return finalRes;
 };
 //get recent 3 transactions

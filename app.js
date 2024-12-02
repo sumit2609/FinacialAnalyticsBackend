@@ -91,12 +91,35 @@ app.get("/api/totalExpense", async (req,res) => {
 
 //get total revenue
 app.get("/api/totalRevenue", async (req,res) => {
+    const {type} = req.query;
+    //console.log(req.query)
+    if(!type){
+        res.status(500).json({
+            error:{
+                success:false,
+                error:err
+            }
+        })
+    }
     try{
-        //const documents = await collections.find().toArray();
         const revenue = await getBalance('Revenue');
+        const expense = await getBalance('Expense');
+
+        let result;
+        console.log(type)
+        if(type === 'Revenue'){
+            result = revenue;
+        }
+        if(type === 'Expense'){
+            result = expense;
+        }
+        if(type === 'Balance' || type ==='Saving'){
+            result = revenue-expense;
+        }
+        console.log(result)
         res.status(200).json({
             data:{
-                totalExpense: revenue,
+                totalExpense: result,
                 success: true
             }
         });
